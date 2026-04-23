@@ -45,14 +45,12 @@ def read_env(name: str, default: str) -> str:
 
 load_dotenv()
 
-# Quick local test fallback.
-# Put a real YouTube URL here if you want to run the script without setting YOUTUBE_URL.
-DEFAULT_YOUTUBE_URL = "https://www.youtube.com/watch?v=ZYbKUUrbatI"
+# Set the test target directly here when you want to run the script.
+YOUTUBE_URL = "https://www.youtube.com/watch?v=ZYbKUUrbatI"
 
 BASE_URL = read_env("STT_BASE_URL", "http://localhost:8001").rstrip("/")
 MODEL = read_env("STT_MODEL", "whisper-1")
 LANGUAGE = read_env("STT_LANGUAGE", "ko")
-YOUTUBE_URL = read_env("YOUTUBE_URL", DEFAULT_YOUTUBE_URL)
 RETRIES = int(read_env("STT_HEALTH_RETRIES", "20"))
 BACKOFF_SECONDS = float(read_env("STT_HEALTH_BACKOFF_SEC", "2"))
 BEAM_SIZE = int(read_env("STT_BEAM_SIZE", "5"))
@@ -110,8 +108,7 @@ def ensure_command(name: str) -> None:
 def download_audio(youtube_url: str, target_dir: Path) -> Path:
     if not youtube_url:
         raise RuntimeError(
-            "YouTube URL is empty. Set YOUTUBE_URL in .env/environment, "
-            "or fill DEFAULT_YOUTUBE_URL at the top of this script."
+            "YouTube URL is empty. Set YOUTUBE_URL at the top of this script."
         )
 
     ensure_command("yt-dlp")

@@ -86,9 +86,8 @@ The repository includes a test script that downloads audio from YouTube and tran
 python3 scripts/test_faster_whisper_youtube.py
 ```
 
-You can adjust these values in `.env`:
+Set the YouTube URL directly at the top of `scripts/test_faster_whisper_youtube.py`, and adjust these values in `.env` if needed:
 
-- `YOUTUBE_URL`
 - `STT_BASE_URL`
 - `STT_CHUNK_SECONDS`
 - `STT_CHUNK_OVERLAP_SECONDS`
