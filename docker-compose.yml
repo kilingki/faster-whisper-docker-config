@@ -1,0 +1,27 @@
+services:
+  stt-openai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: stt-openai
+    ports:
+      - "${STT_PORT:-8001}:8000"
+    environment:
+      MODEL_ID: ${MODEL_ID:-ghost613/faster-whisper-large-v3-turbo-korean}
+      DEVICE: ${DEVICE:-cuda}
+      COMPUTE_TYPE: ${COMPUTE_TYPE:-float16}
+      DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ko}
+      DEFAULT_BEAM_SIZE: ${DEFAULT_BEAM_SIZE:-5}
+      DEFAULT_BATCH_SIZE: ${DEFAULT_BATCH_SIZE:-2}
+      MODEL_DIR: /models
+      HF_HOME: /models/hf
+    volumes:
+      - ${MODEL_HOST_DIR:-../models/stt}:/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
